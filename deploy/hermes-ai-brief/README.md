@@ -47,6 +47,6 @@ docker exec --user 10000:10000 hermes-serve \
 
 视觉模式使用 `ACT_BRIEF_VISUAL_DELIVERY=1` 显式开启。关闭该变量即可回到旧文字执行器；`state.json` schema 不变，新的 `delivery-manifests/` 无需迁移。正式开启前必须先完成两轮 shadow render、使用者视觉确认和 Guizang 校验器检查。
 
-早晚入口在生产模式内设置 `ACT_BRIEF_VISUAL_DELIVERY=1` 与 `ACT_BRIEF_RENDER_MODE=queue`。恢复任务使用 Hermes cron `290bb50a020a`，在每小时 07/22/37/52 分运行：始终先恢复最早的未完成 manifest，保持原编号与原新闻，不重发已成功部分；若没有 manifest 但最近一个 07:00/19:00 水位仍欠账，则生成该到期窗口。无欠账时不读取 AIHOT。停用图文时应同时恢复备份入口并移除该恢复 cron。
+早晚入口在生产模式内设置 `ACT_BRIEF_VISUAL_DELIVERY=1` 与 `ACT_BRIEF_RENDER_MODE=queue`。恢复任务用 Hermes cron 创建（任务 id 只记在私人部署清单里），在每小时 07/22/37/52 分运行：始终先恢复最早的未完成 manifest，保持原编号与原新闻，不重发已成功部分；若没有 manifest 但最近一个 07:00/19:00 水位仍欠账，则生成该到期窗口。无欠账时不读取 AIHOT。停用图文时应同时恢复备份入口并移除该恢复 cron。
 
 VPS 正式渲染使用固定版本的 renderer sidecar。它只挂载 `${HERMES_DATA_DIR}/act-ai-brief/render-queue`，以 UID/GID 10000 运行，容器根文件系统只读、网络为 `none`，并启用 `cap-drop ALL`、`no-new-privileges`、CPU/内存/PID 限制；不挂载 ACT、Hermes 配置、消息凭据或其他状态。执行器设置 `ACT_BRIEF_RENDER_MODE=queue` 后只把清洗后的 package、合格官方图和输出目录放入该队列。生产使用的镜像 digest 应记录在私人部署清单中。
