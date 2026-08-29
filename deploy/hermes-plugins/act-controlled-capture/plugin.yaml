@@ -1,0 +1,6 @@
+name: act-controlled-capture
+version: 0.1.0
+description: "Capture explicit Weixin or Telegram DM '记一下' messages verbatim into an isolated append-only journal outside ACT."
+author: "ACT template contributors"
+hooks:
+  - pre_gateway_dispatch

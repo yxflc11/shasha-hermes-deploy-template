@@ -1,0 +1,6 @@
+services:
+  hermes-serve:
+    volumes:
+      - ${SHASHA_PRIVATE_OVERLAY_DIR:?set SHASHA_PRIVATE_OVERLAY_DIR in .env}:/run/shasha-private:ro
+    environment:
+      ACT_BRIEF_COPY_FILE: /run/shasha-private/brief-copy.private.json

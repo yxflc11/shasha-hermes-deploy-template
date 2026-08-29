@@ -1,0 +1,38 @@
+services:
+  hermes-serve:
+    image: ${HERMES_IMAGE:?set HERMES_IMAGE in .env}
+    pull_policy: never
+    container_name: hermes-serve
+    user: root
+    working_dir: /opt/hermes
+    command:
+      - gateway
+      - run
+    restart: unless-stopped
+    network_mode: bridge
+    ports:
+      - ${HERMES_DASHBOARD_BIND:-127.0.0.1}:${HERMES_DASHBOARD_PORT:-9119}:9119
+    volumes:
+      - ${HERMES_DATA_DIR:?set HERMES_DATA_DIR in .env}:/opt/data
+      - ${ACT_VAULT_DIR:?set ACT_VAULT_DIR in .env}:/knowledge/ACT:ro
+    env_file:
+      - ${HERMES_DASHBOARD_ENV_FILE:?set HERMES_DASHBOARD_ENV_FILE in .env}
+    environment:
+      HERMES_UID: "10000"
+      HERMES_GID: "10000"
+      HERMES_DASHBOARD: "1"
+      HERMES_DASHBOARD_HOST: 0.0.0.0
+      HERMES_DASHBOARD_PORT: "9119"
+      ACT_ROOT: /knowledge/ACT
+      TERMINAL_CWD: /knowledge/ACT
+      ACT_COMPANION_CHANNEL: telegram_dm
+      ACT_BRIEF_TARGET: telegram
+    mem_limit: 4g
+    cpus: 2
+    pids_limit: 512
+    shm_size: 64m
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"

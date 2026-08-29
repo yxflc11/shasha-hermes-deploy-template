@@ -1,0 +1,14 @@
+Shasha Hermes Deploy Template
+Copyright (c) 2026 Shasha Hermes Deploy Template contributors
+
+SPDX-License-Identifier: AGPL-3.0-only
+
+Except where a file or third-party notice states otherwise, this repository is
+licensed under the GNU Affero General Public License, version 3 only.
+
+The complete, unmodified AGPL-3.0 license text is included at:
+
+deploy/hermes-ai-brief/third_party/guizang-social-card-skill/LICENSE
+
+Third-party copyrights and license terms remain with their respective owners.
+See THIRD_PARTY_NOTICES.md before redistributing or deploying modified versions.
